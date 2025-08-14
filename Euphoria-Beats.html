@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Euphoria Beats | Electronic Music Festival</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Montserrat:wght@400;700;900&display=swap');
+        
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-cyan: #00ffff;
+            --fluorescent-yellow: #ccff00;
+            --dark-bg: #000;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .title-font {
+            font-family: 'Bungee', cursive;
+        }
+        
+        .hero-video {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .hero-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+            }
+            50% {
+                text-shadow: 0 0 20px var(--neon-pink), 0 0 30px var(--neon-pink), 0 0 40px var(--neon-cyan);
+            }
+            100% {
+                text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+            }
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="rgba(255,0,255,0.1)"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="rgba(0,255,255,0.1)"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="rgba(204,255,0,0.1)"/></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: 10;
+        }
+        
+        .artist-card {
+            transition: transform 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .artist-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+        
+        .ticket-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .ticket-card:hover {
+            transform: scale(1.05);
+            border-color: var(--fluorescent-yellow);
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.5);
+        }
+        
+        .ticket-card.popular {
+            border: 2px solid var(--neon-pink);
+            position: relative;
+        }
+        
+        .ticket-card.popular::before {
+            content: "MOST POPULAR";
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background-color: var(--neon-pink);
+            color: black;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        
+        .gallery-item {
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .gallery-item img {
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .sound-wave {
+            position: relative;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        
+        .sound-wave span {
+            display: block;
+            width: 5px;
+            height: 5px;
+            background: linear-gradient(to top, var(--neon-pink), var(--neon-cyan));
+            border-radius: 5px;
+            animation: soundWave 1.5s infinite ease-in-out;
+        }
+        
+        @keyframes soundWave {
+            0%, 100% {
+                height: 5px;
+            }
+            50% {
+                height: 50px;
+            }
+        }
+        
+        .sound-wave span:nth-child(1) { animation-delay: 0.1s; }
+        .sound-wave span:nth-child(2) { animation-delay: 0.3s; }
+        .sound-wave span:nth-child(3) { animation-delay: 0.5s; }
+        .sound-wave span:nth-child(4) { animation-delay: 0.7s; }
+        .sound-wave span:nth-child(5) { animation-delay: 0.9s; }
+        .sound-wave span:nth-child(6) { animation-delay: 1.1s; }
+        .sound-wave span:nth-child(7) { animation-delay: 1.3s; }
+        .sound-wave span:nth-child(8) { animation-delay: 1.5s; }
+        
+        .countdown-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--neon-pink);
+            border-radius: 5px;
+            padding: 10px;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(to right, var(--neon-pink), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--neon-pink), var(--neon-cyan));
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(to right, var(--neon-pink), var(--neon-cyan), var(--fluorescent-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to right, 
+                rgba(255, 0, 255, 0), 
+                rgba(255, 0, 255, 0.8), 
+                rgba(0, 255, 255, 0.8), 
+                rgba(255, 0, 255, 0));
+            transform: rotate(45deg);
+            z-index: -1;
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+        
+        .btn-glow:hover::before {
+            opacity: 1;
+            animation: glow 1.5s infinite;
+        }
+        
+        @keyframes glow {
+            0% {
+                left: -50%;
+            }
+            100% {
+                left: 150%;
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-video {
+                height: 70vh;
+            }
+            
+            .countdown-number {
+                font-size: 1.5rem;
+            }
+            
+            .countdown-box {
+                min-width: 60px;
+                padding: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black bg-opacity-90 backdrop-blur-sm border-b border-gray-800">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <a href="#" class="title-font text-2xl md:text-3xl gradient-text">EUPHORIA BEATS</a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-white hover:text-cyan-300 transition">HOME</a>
+                    <a href="#lineup" class="nav-link text-white hover:text-pink-400 transition">LINE-UP</a>
+                    <a href="#tickets" class="nav-link text-white hover:text-yellow-300 transition">TICKETS</a>
+                    <a href="#gallery" class="nav-link text-white hover:text-cyan-300 transition">GALLERY</a>
+                    <a href="#info" class="nav-link text-white hover:text-pink-400 transition">INFO</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-white focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black bg-opacity-95 px-6 py-4">
+            <div class="flex flex-col space-y-4">
+                <a href="#home" class="text-white hover:text-cyan-300 transition">HOME</a>
+                <a href="#lineup" class="text-white hover:text-pink-400 transition">LINE-UP</a>
+                <a href="#tickets" class="text-white hover:text-yellow-300 transition">TICKETS</a>
+                <a href="#gallery" class="text-white hover:text-cyan-300 transition">GALLERY</a>
+                <a href="#info" class="text-white hover:text-pink-400 transition">INFO</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Video -->
+    <section id="home" class="hero-video">
+        <video autoplay muted loop>
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-crowd-at-a-music-festival-4645-large.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-overlay">
+            <div class="sound-wave absolute top-20 w-full px-10">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <h1 class="title-font text-5xl md:text-8xl mb-4 text-center gradient-text pulse">EUPHORIA BEATS</h1>
+            <p class="text-xl md:text-2xl mb-8 text-center max-w-2xl px-4">The ultimate electronic music experience | June 26-28, 2030</p>
+            
+            <!-- Countdown Timer -->
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <div class="countdown-box">
+                    <div id="days" class="countdown-number">00</div>
+                    <div class="text-sm">DAYS</div>
+                </div>
+                <div class="countdown-box">
+                    <div id="hours" class="countdown-number">00</div>
+                    <div class="text-sm">HOURS</div>
+                </div>
+                <div class="countdown-box">
+                    <div id="minutes" class="countdown-number">00</div>
+                    <div class="text-sm">MINUTES</div>
+                </div>
+                <div class="countdown-box">
+                    <div id="seconds" class="countdown-number">00</div>
+                    <div class="text-sm">SECONDS</div>
+                </div>
+            </div>
+            
+            <a href="#tickets" class="btn-glow bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-300">
+                GET TICKETS NOW
+            </a>
+        </div>
+        <div class="wave"></div>
+    </section>
+
+    <!-- Line-Up Section -->
+    <section id="lineup" class="py-20 bg-black relative overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="title-font text-4xl md:text-5xl mb-4 gradient-text">LINE-UP</h2>
+                <p class="text-xl max-w-2xl mx-auto">The biggest names in electronic music are coming to Euphoria Beats 2024</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Artist 1 -->
+                <div class="artist-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="DJ Neon Pulse" class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                            <h3 class="text-2xl font-bold">DJ NEON PULSE</h3>
+                            <p class="text-cyan-300">Friday Main Stage</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Artist 2 -->
+                <div class="artist-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" 
+                             alt="The Bass Droppers" class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                            <h3 class="text-2xl font-bold">THE BASS DROPPERS</h3>
+                            <p class="text-pink-400">Saturday Main Stage</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Artist 3 -->
+                <div class="artist-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="Electro Queen" class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                            <h3 class="text-2xl font-bold">ELECTRO QUEEN</h3>
+                            <p class="text-yellow-300">Sunday Main Stage</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Artist 4 -->
+                <div class="artist-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="Synthwave Collective" class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                            <h3 class="text-2xl font-bold">SYNTHWAVE COLLECTIVE</h3>
+                            <p class="text-cyan-300">Friday Night Stage</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Artist 5 -->
+                <div class="artist-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="Digital Dreamers" class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                            <h3 class="text-2xl font-bold">DIGITAL DREAMERS</h3>
+                            <p class="text-pink-400">Saturday Night Stage</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Artist 6 -->
+                <div class="artist-card bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://images.unsplash.com/photo-1501612780327-45045538702b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="Bassline Brothers" class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                            <h3 class="text-2xl font-bold">BASSLINE BROTHERS</h3>
+                            <p class="text-yellow-300">Sunday Night Stage</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-block border-2 border-cyan-400 text-cyan-400 font-bold py-3 px-8 rounded-full hover:bg-cyan-400 hover:text-black transition duration-300">
+                    VIEW FULL LINE-UP
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tickets Section -->
+    <section id="tickets" class="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="title-font text-4xl md:text-5xl mb-4 gradient-text">TICKETS</h2>
+                <p class="text-xl max-w-2xl mx-auto">Choose your festival experience</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- GA Ticket -->
+                <div class="ticket-card bg-gray-900 rounded-lg p-8 shadow-lg">
+                    <h3 class="text-2xl font-bold mb-2 text-cyan-300">GENERAL ADMISSION</h3>
+                    <p class="text-gray-400 mb-6">3-day festival access</p>
+                    <div class="text-4xl font-bold mb-6">$199<span class="text-lg">/person</span></div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> Access to all stages</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> Festival grounds entry</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> Food & drink vendors</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> Merchandise stands</li>
+                    </ul>
+                    <a href="#" class="block text-center bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-6 rounded-full transition duration-300">
+                        BUY NOW
+                    </a>
+                </div>
+                
+                <!-- VIP Ticket -->
+                <div class="ticket-card popular bg-gray-900 rounded-lg p-8 shadow-lg">
+                    <h3 class="text-2xl font-bold mb-2 text-pink-400">VIP EXPERIENCE</h3>
+                    <p class="text-gray-400 mb-6">3-day premium festival access</p>
+                    <div class="text-4xl font-bold mb-6">$399<span class="text-lg">/person</span></div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> All GA benefits</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> VIP viewing areas</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> Fast lane entry</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> Exclusive VIP lounge</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> Complimentary drinks</li>
+                    </ul>
+                    <a href="#" class="block text-center bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full transition duration-300">
+                        BUY NOW
+                    </a>
+                </div>
+                
+                <!-- Platinum Ticket -->
+                <div class="ticket-card bg-gray-900 rounded-lg p-8 shadow-lg">
+                    <h3 class="text-2xl font-bold mb-2 text-yellow-300">PLATINUM</h3>
+                    <p class="text-gray-400 mb-6">Ultimate festival experience</p>
+                    <div class="text-4xl font-bold mb-6">$799<span class="text-lg">/person</span></div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> All VIP benefits</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> Backstage access</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> Meet & greet with artists</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> Premium parking</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-400 mr-2"></i> Luxury accommodations</li>
+                    </ul>
+                    <a href="#" class="block text-center bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-6 rounded-full transition duration-300">
+                        BUY NOW
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 bg-black relative overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="title-font text-4xl md:text-5xl mb-4 gradient-text">GALLERY</h2>
+                <p class="text-xl max-w-2xl mx-auto">Relive the magic of past Euphoria Beats festivals</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Gallery Item 1 -->
+                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Festival crowd" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 hover:opacity-100 transition duration-300 flex items-end p-4">
+                        <h3 class="text-white text-xl font-bold">Euphoria Beats 2023</h3>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 2 -->
+                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://img.freepik.com/fotos-gratis/estilo-de-vida-de-festa-techno_52683-122049.jpg" 
+                         alt="DJ performing" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 hover:opacity-100 transition duration-300 flex items-end p-4">
+                        <h3 class="text-white text-xl font-bold">Main Stage Performance</h3>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 3 -->
+                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Laser show" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 hover:opacity-100 transition duration-300 flex items-end p-4">
+                        <h3 class="text-white text-xl font-bold">Light Spectacular</h3>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 4 -->
+                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Crowd dancing" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 hover:opacity-100 transition duration-300 flex items-end p-4">
+                        <h3 class="text-white text-xl font-bold">Dance Floor Energy</h3>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 5 -->
+                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Fireworks" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 hover:opacity-100 transition duration-300 flex items-end p-4">
+                        <h3 class="text-white text-xl font-bold">Grand Finale</h3>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 6 -->
+                <div class="gallery-item rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="DJ close-up" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 hover:opacity-100 transition duration-300 flex items-end p-4">
+                        <h3 class="text-white text-xl font-bold">Behind the Decks</h3>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-block border-2 border-pink-500 text-pink-500 font-bold py-3 px-8 rounded-full hover:bg-pink-500 hover:text-black transition duration-300">
+                    VIEW MORE PHOTOS
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section id="info" class="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="title-font text-4xl md:text-5xl mb-4 gradient-text">FESTIVAL INFO</h2>
+                <p class="text-xl max-w-2xl mx-auto">Everything you need to know</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-cyan-300 flex items-center">
+                        <i class="fas fa-map-marker-alt mr-3"></i> LOCATION
+                    </h3>
+                    <p class="mb-4">Euphoria Fields, Electronic Avenue, Beat City</p>
+                    <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2381.2345928861027!2d-56.01313224024255!3d-4.251490756242653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x925fd9c2600c956b%3A0xe6035ad2bcf1398a!2sParque%20de%20Exposi%C3%A7%C3%B5es%20H%C3%A9lio%20da%20Mota%20Gueiros!5e1!3m2!1spt-BR!2sbr!4v1755195983874!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-pink-400 flex items-center">
+                        <i class="fas fa-calendar-alt mr-3"></i> DATES & TIMES
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-circle text-yellow-300 mt-1 mr-3 text-xs"></i>
+                            <div>
+                                <h4 class="font-bold">Wednesday, June 26</h4>
+                                <p class="text-gray-400">Gates open: 6 PM | Music starts: 11 PM</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-circle text-yellow-300 mt-1 mr-3 text-xs"></i>
+                            <div>
+                                <h4 class="font-bold">Thursday, June 27</h4>
+                                <p class="text-gray-400">Gates open: 6 PM | Music starts: 10 PM</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-circle text-yellow-300 mt-1 mr-3 text-xs"></i>
+                            <div>
+                                <h4 class="font-bold">Friday, June 28</h4>
+                                <p class="text-gray-400">Gates open: 6 PM | Music starts: 12 AM</p>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <h3 class="text-2xl font-bold mt-10 mb-6 text-cyan-300 flex items-center">
+                        <i class="fas fa-info-circle mr-3"></i> FESTIVAL RULES
+                    </h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mt-1 mr-3 text-xs"></i>
+                            <span>18+ event (ID required)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mt-1 mr-3 text-xs"></i>
+                            <span>No outside food or drinks</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mt-1 mr-3 text-xs"></i>
+                            <span>No professional cameras</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mt-1 mr-3 text-xs"></i>
+                            <span>No illegal substances</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-400 mt-1 mr-3 text-xs"></i>
+                            <span>Re-entry allowed with wristband</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-16 bg-black border-t border-gray-800">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-2xl md:text-3xl font-bold mb-4 gradient-text">STAY IN THE LOOP</h3>
+            <p class="mb-8 max-w-2xl mx-auto">Sign up for our newsletter to get the latest updates, exclusive offers, and artist announcements.</p>
+            
+            <form class="max-w-md mx-auto flex">
+                <input type="email" placeholder="Your email address" class="flex-grow px-4 py-3 rounded-l-lg focus:outline-none bg-gray-800 text-white">
+                <button type="submit" class="bg-gradient-to-r from-pink-500 to-cyan-500 text-white font-bold px-6 py-3 rounded-r-lg hover:opacity-90 transition">
+                    SUBSCRIBE
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <a href="#" class="title-font text-2xl gradient-text">EUPHORIA BEATS</a>
+                    <p class="mt-2 text-gray-400">The ultimate electronic music experience</p>
+                </div>
+                
+                <div class="flex space-x-6 mb-6 md:mb-0">
+                    <a href="#" class="text-gray-400 hover:text-cyan-300 transition">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-pink-400 transition">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-yellow-300 transition">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-cyan-300 transition">
+                        <i class="fab fa-soundcloud text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-pink-400 transition">
+                        <i class="fab fa-spotify text-xl"></i>
+                    </a>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition">Terms</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">Privacy</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">FAQ</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">Contact</a>
+                </div>
+            </div>
+            
+            <div class="mt-12 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+                <p>&copy; 2024 Euphoria Beats Festival. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+        
+        // Countdown timer
+        function updateCountdown() {
+            const eventDate = new Date('June 26, 2030 23:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            
+            if (distance < 0) {
+                clearInterval(countdownTimer);
+                document.getElementById('countdown').innerHTML = "<div class='text-2xl'>The festival has started!</div>";
+            }
+        }
+        
+        updateCountdown();
+        const countdownTimer = setInterval(updateCountdown, 1000);
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                if (!document.getElementById('mobile-menu').classList.contains('hidden')) {
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                }
+            });
+        });
+        
+        // Add wave effect to artist cards on hover
+        document.querySelectorAll('.artist-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const wave = document.createElement('div');
+                wave.className = 'absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-500 via-cyan-500 to-yellow-300 opacity-70';
+                wave.style.animation = 'wave 2s linear infinite';
+                this.appendChild(wave);
+                
+                setTimeout(() => {
+                    wave.remove();
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
